@@ -1,0 +1,16 @@
+---
+- name: Show IP Interface Brief Configuration
+  hosts: switches  # Ensure this group is defined in your inventory
+  gather_facts: no  # No need to gather facts about the system
+
+  tasks:
+    - name: Retrieve IP Interface Brief
+      cisco.ios.ios_command:
+        commands:
+          - show ip int brief  # Command to show interface status and configuration
+      register: ip_int_brief_output  # Save the output of the command to a variable
+
+    - name: Display IP Interface Brief Information
+      debug:
+        msg: "{{ ip_int_brief_output.stdout_lines }}"  # Display the output from the command
+
