@@ -1,0 +1,15 @@
+---
+- name: Display Running Configuration on Cisco Switches
+  hosts: switches  # Ensure this group is defined in your inventory
+  gather_facts: no
+
+  tasks:
+    - name: Retrieve running configuration
+      cisco.ios.ios_command:
+        commands:
+          - show running-config
+      register: running_config
+
+    - name: Print running configuration
+      debug:
+        msg: "{{ running_config.stdout[0] }}"
