@@ -1,0 +1,14 @@
+- name: Configure Switch (ACCESS_SW3)
+  hosts: switches
+  gather_facts: no
+  become: yes
+  vars:
+    switch_hostname: "ACCESS_SW3"
+    #banner_motd: "Welcome to ACCESS_SW3. Authorized access only."
+    vlan_id: "99"
+    vlan_name: "Management_VLAN"
+
+  tasks:
+    - name: "Run sshpass to SSH into Cisco device"
+      command: sshpass -p test ssh test@192.168.99.101
+      ignore_errors: yes
