@@ -3,21 +3,8 @@
   hosts: switches
   gather_facts: no
   connection: network_cli
-
-  tasks:
-    - name: Check for paramiko installation
-      pip:
-        name: paramiko
-        state: present
-      delegate_to: localhost
-
-    - name: Ensure connection settings for paramiko
-      set_fact:
-        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no'
-      delegate_to: localhost
-
     - name: Run sshpass to SSH into Cisco device and execute 'show ip int brief'
-      command: sshpass -p 'your_password' ssh -T -o StrictHostKeyChecking=no test@192.168.99.101 "show ip int brief"
+      command: sshpass -p 'test' ssh -T -o StrictHostKeyChecking=no test@192.168.99.101 "show ip int brief"
       register: ip_int_brief_output
       ignore_errors: yes
 
