@@ -1,4 +1,17 @@
 ---
+- name: Check if paramiko is installed and install if necessary
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Check if paramiko is installed
+      command: python -c "import paramiko"
+      register: paramiko_check
+      ignore_errors: yes
+
+    - name: Install paramiko if not present
+      include_playbook: install_paramiko.yml
+      when: paramiko_check.failed
+
 - name: Create VLAN if it doesn't exist on a Cisco switch
   hosts: switches
   gather_facts: no
