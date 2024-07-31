@@ -1,12 +1,23 @@
 ---
 - name: Display Running Configuration on Cisco Switches
-  hosts: switches  # Ensure this group is defined in your inventory
+  hosts: switches
   gather_facts: no
   connection: network_cli
 
   tasks:
+    - name: Check for paramiko installation
+      pip:
+        name: paramiko
+        state: present
+      delegate_to: localhost
+
+    - name: Ensure connection settings for paramiko
+      set_fact:
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o ControlMaster=no'
+      delegate_to: localhost
+
     - name: Retrieve running configuration
-      cisco.ios.ios_command:
+      ios_command:
         commands:
           - show running-config
       register: running_config
