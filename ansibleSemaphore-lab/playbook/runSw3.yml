@@ -13,13 +13,7 @@
     - name: Print 'show ip int brief' command output
       debug:
         var: ip_int_brief_output.stdout
-
-    - name: Retrieve running configuration
-      ios_command:
-        commands:
-          - show running-config
-      register: running_config
-
+        
     - name: Print running configuration
       debug:
         var: running_config.stdout[0]
