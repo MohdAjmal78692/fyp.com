@@ -1,0 +1,17 @@
+---
+- name: Configure VLANs on switch
+  hosts: switches
+  gather_facts: no
+  collections:
+    - cisco.ios
+  tasks:
+    - name: Create VLAN 60
+      cisco.ios.ios_config:
+        lines:
+          - vlan 60
+#          - name FINANCE_PC1
+
+    - name: Create VLAN 80
+      cisco.ios.ios_config:
+        lines:
+          - vlan 80
