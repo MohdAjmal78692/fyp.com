@@ -1,0 +1,6 @@
+
+---
+- name: configure cisco routers
+  hosts: routers
+  connection: network_cli
+  gather_facts: false
