@@ -12,10 +12,14 @@
     ansible_become_password: test  # Replace with your actual enable password
 
   tasks:
-    - name: Run sshpass to SSH into Cisco device and execute 'show ip int brief'
-      command: sshpass -p 'test' ssh -T -o StrictHostKeyChecking=no test@192.168.99.106 "show ip int brief"
-      register: ip_int_brief_output
+    - name: Run sshpass to SSH into Cisco device
+      command: sshpass -p 'test' ssh -T -o StrictHostKeyChecking=no test@192.168.99.101
+      register: sshpass_output
       ignore_errors: yes
+
+    - name: Print sshpass command output
+      debug:
+        var: sshpass_output.stdout
 
     - name: Ensure VLAN 100 exists
       cisco.ios.ios_config:
