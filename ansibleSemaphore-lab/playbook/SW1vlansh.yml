@@ -1,0 +1,15 @@
+---
+- name: Show VLAN Configuration
+  hosts: ACCESS_SW1  # Ensure this group is defined in your inventory
+  gather_facts: no  # No need to gather facts about the system
+
+  tasks:
+    - name: Retrieve VLAN configuration
+      cisco.ios.ios_command:
+        commands:
+          - show vlan brief  # This command might vary depending on the device
+      register: vlan_output  # Save the output of the command to a variable
+
+    - name: Display VLAN information
+      debug:
+        msg: "{{ vlan_output.stdout_lines }}"  # Display the output from the command
