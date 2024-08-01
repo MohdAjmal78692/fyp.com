@@ -4,6 +4,15 @@
   gather_facts: no  # No need to gather facts about the system
 
   tasks:
+    - name: Run sshpass to SSH into Cisco device and execute 'show ip int brief'
+      command: sshpass -p 'your_password' ssh -T -o StrictHostKeyChecking=no your_username@192.168.99.101 "show ip int brief"
+      register: ip_int_brief_output
+      ignore_errors: yes
+
+    - name: Print 'show ip int brief' command output
+      debug:
+        var: ip_int_brief_output.stdout
+
     - name: Retrieve VLAN configuration
       cisco.ios.ios_command:
         commands:
