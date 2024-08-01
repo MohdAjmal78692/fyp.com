@@ -2,12 +2,6 @@
 - name: Show VLAN Configuration
   hosts: ACCESS_SW1  # Ensure this group is defined in your inventory
   gather_facts: no  # No need to gather facts about the system
-
-  tasks:
-    - name: Run sshpass to SSH into Cisco device and execute 'show ip int brief'
-      command: sshpass -p 'test' ssh -T -o StrictHostKeyChecking=no test@192.168.99.106 "show ip int brief"
-      register: ip_int_brief_output
-      ignore_errors: yes
     - name: Retrieve VLAN configuration
       cisco.ios.ios_command:
         commands:
