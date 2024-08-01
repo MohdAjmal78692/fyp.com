@@ -2,6 +2,16 @@
 - name: Show VLAN Configuration
   hosts: ACCESS_SW1  # Ensure this group is defined in your inventory
   gather_facts: no  # No need to gather facts about the system
+  connection: network_cli
+  vars:
+    ansible_network_os: ios
+    ansible_user: test  # Replace with your actual username
+    ansible_password: test  # Replace with your actual password
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_become_password: test  # Replace with your actual enable password
+
+  tasks:
     - name: Retrieve VLAN configuration
       cisco.ios.ios_command:
         commands:
