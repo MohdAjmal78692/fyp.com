@@ -3,10 +3,6 @@
   hosts: ACCESS_SW1
   gather_facts: no
   connection: network_cli
-  environment:
-    LANG: C
-    LC_ALL: C
-
   tasks:
     - name: Ensure VLAN 100 exists
       cisco.ios.ios_config:
