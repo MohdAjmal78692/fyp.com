@@ -5,7 +5,7 @@
 
   tasks:
     - name: Run sshpass to SSH into Cisco device and execute 'show ip int brief'
-      command: sshpass -p 'your_password' ssh -T -o StrictHostKeyChecking=no your_username@192.168.99.101 "show ip int brief"
+      command: sshpass -p 'test' ssh -T -o StrictHostKeyChecking=no test@192.168.99.106 "show ip int brief"
       register: ip_int_brief_output
       ignore_errors: yes
 
