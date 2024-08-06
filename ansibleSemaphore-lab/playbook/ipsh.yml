@@ -1,6 +1,6 @@
 ---
 - name: Show IP Interface Brief Configuration
-  hosts: switches
+  hosts: ACCESS_SW1
   gather_facts: no
   tasks:
     - name: Retrieve IP Interface Brief
