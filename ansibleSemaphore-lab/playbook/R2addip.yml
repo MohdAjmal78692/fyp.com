@@ -6,7 +6,7 @@
     router_hostname: "CORE_R2"
     banner_motd: "Welcome to CORE_R2. Authorized access only."
     subinterface_ip: "192.168.99.2"
-    subinterface_number: "Fa0/1.10"
+    subinterface_number: "Fa0/1.99"
 
   tasks:
     - name: Check current interface configurations
