@@ -1,0 +1,41 @@
+---
+- name: Create VLAN if it doesn't exist on a Cisco switch
+  hosts: ACCESS_SW1
+  gather_facts: no
+  connection: network_cli
+
+  vars:
+    vlan_id: 200
+    vlan_name: "FYP"
+    interface: "GigabitEthernet0/2"
+
+  tasks:
+    - name: Collect facts about VLAN "{{ vlan_id }}" on the device
+      cisco.ios.ios_command:
+        commands:
+          - "show vlan id {{ vlan_id }}"
+      register: sh_vlan_output
+
+    - name: Check if VLAN exists
+      set_fact:
+        vlan_exists: "{{ 'VLAN' in sh_vlan_output.stdout[0] }}"
+
+    - name: Add VLAN if it does not exist
+      cisco.ios.ios_config:
+        lines:
+          - "vlan {{ vlan_id }}"
+          - "name {{ vlan_name }}"
+      when: not vlan_exists
+
+    - name: Assign interface to VLAN
+      cisco.ios.ios_config:
+        lines:
+          - "switchport mode access"
+          - "switchport access vlan {{ vlan_id }}"
+        parents:
+          - "interface {{ interface }}"
+      when: not vlan_exists
+
+    - name: Save running configuration to start-config if modified
+      cisco.ios.ios_config:
+        save_when: modified
