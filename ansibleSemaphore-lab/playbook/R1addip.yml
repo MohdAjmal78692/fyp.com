@@ -1,0 +1,28 @@
+---
+- name: Configure sub-interface on CORE_R1
+  hosts: CORE_R1
+  gather_facts: no
+  connection: network_cli
+  vars:
+    interface_name: "FastEthernet1/0.20"
+    ip_address: "192.168.10.20"
+    subnet_mask: "255.255.255.0"
+
+  tasks:
+    - name: Configure sub-interface with IP address
+      ios_config:
+        lines:
+          - "interface {{ interface_name }}"
+          - "ip address {{ ip_address }} {{ subnet_mask }}"
+          - "no shut"
+          - "exit"
+
+    - name: Verify the configuration
+      ios_command:
+        commands:
+          - "show run interface {{ interface_name }}"
+      register: output
+
+    - name: Display configuration output
+      debug:
+        var: output.stdout_lines
