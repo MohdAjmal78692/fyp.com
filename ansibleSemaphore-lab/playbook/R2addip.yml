@@ -1,0 +1,35 @@
+- name: Configure Router (CORE_R2)
+  hosts: routers
+  gather_facts: no
+  connection: network_cli
+  vars:
+    router_hostname: "CORE_R2"
+    banner_motd: "Welcome to CORE_R2. Authorized access only."
+    subinterface_ip: "192.168.99.2"
+    subinterface_number: "Fa0/1.10"
+
+  tasks:
+    - name: Check current interface configurations
+      command: sshpass -p 'test' ssh -o StrictHostKeyChecking=no test@192.168.10.2 "show ip int brief"
+      register: current_config
+      ignore_errors: yes
+
+    - name: Display current interface configurations
+      debug:
+        var: current_config.stdout
+
+    - name: Configure hostname
+      ios_config:
+        lines:
+          - "hostname {{ router_hostname }}"
+
+    - name: Configure banner motd
+      ios_config:
+        lines:
+          - "banner motd # {{ banner_motd }} #"
+
+    - name: Configure subinterface IP
+      ios_config:
+        lines:
+          - "interface {{ subinterface_number }}"
+          - "ip address {{ subinterface_ip }} 255.255.255.0"
