@@ -1,0 +1,15 @@
+---
+- name: Gather IP interface brief information from routers
+  hosts: CORE_R1
+  gather_facts: no
+  tasks:
+    - name: Run show ip interface brief command
+      ios_command:
+        commands:
+          - show ip interface brief
+      register: output
+
+    - name: Display interface brief
+      debug:
+        var: output.stdout_lines
+
