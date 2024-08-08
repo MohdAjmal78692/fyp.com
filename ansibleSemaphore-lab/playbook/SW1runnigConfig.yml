@@ -1,6 +1,6 @@
 ---
 - name: Display Running Configuration on Cisco Switches
-  hosts: ACCESS_SW1  # Ensure this group is defined in your inventory
+  hosts: switches  # Ensure this group is defined in your inventory
   gather_facts: no
 
   tasks:
