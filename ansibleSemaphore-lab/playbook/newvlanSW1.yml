@@ -1,0 +1,24 @@
+- name: Configure Cisco switch and create VLAN
+  hosts: ACCESS_SW1
+  gather_facts: no
+  connection: network_cli
+  vars:
+    ansible_network_os: ios
+    ansible_user: test  # Replace with your actual username
+    ansible_password: test  # Replace with your actual password
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_become_password: test  # Replace with your actual enable password
+
+  tasks:
+    - name: Ensure VLAN 400 exists
+      cisco.ios.ios_config:
+        lines:
+          - vlan 400
+
+    - name: Name VLAN 400 as Mobile
+      cisco.ios.ios_config:
+        lines:
+          - name Mobile
+        parents:
+          - vlan 400
